@@ -1,0 +1,15 @@
+﻿<Window x:Class="Compasso.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Compasso"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="680.613" WindowState="Maximized" Width="1137.734">
+    <Grid x:Name="grdMain">
+        <InkCanvas x:Name="ic" />
+        <local:NewCompasso RenderTransformOrigin="0.5,0.5" Width="400" Height="400" x:Name="CompassoNovo">
+        </local:NewCompasso>
+        <Button Width="100" Height="50" VerticalAlignment="Top" Content="Girar" Click="Button_Click" />
+    </Grid>
+</Window>
