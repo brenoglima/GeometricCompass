@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="300">
     <Canvas x:Name="CanvasMain">
+
         <Rectangle Width="1" Panel.ZIndex="999" Fill="White" Canvas.Top="200" Canvas.Left="200" Height="1" Name="PontoCentral" />
         <Ellipse Name="Circunferencia" Stroke="#33000000" StrokeDashArray="2,2,2,2" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeThickness="3" />
         <Canvas x:Name="PernaEsquerda" Width="90" Height="200" Canvas.Left="57.806" Canvas.Top="100">

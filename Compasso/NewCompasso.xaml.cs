@@ -41,7 +41,6 @@ namespace Compasso
 
     }
 
-    bool isMovingPernaDireita, isMovingPernaEsquerda;
     Point pontoInicial;
     public MainWindow pai;
     private void thumbPernaDireita_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
@@ -78,9 +77,21 @@ namespace Compasso
 
     }
 
+    public void AdicionarPontoMarcacao()
+    {
+      Rect tmpPos = PontaDura.TransformToVisual(pai).TransformBounds(new Rect(PontaDura.RenderSize));
+      PontoRotacao tmpNewPonto = new PontoRotacao();
+      tmpNewPonto.SetValue(InkCanvas.LeftProperty, tmpPos.X);
+      tmpNewPonto.SetValue(InkCanvas.TopProperty, tmpPos.Y);
+      tmpNewPonto.SetValue(Panel.ZIndexProperty, 2000);
+      tmpNewPonto.medidas.Text = $"{tmpPos.X},{tmpPos.Y}";
+      pai.ic.Children.Add(tmpNewPonto);
+    }
+
     public Rect PosicaoDura()
     {
-      return PontaDura.TransformToVisual(PontoCentral).TransformBounds(new Rect(PontaDura.RenderSize));
+      Rect tmpPos = PontaDura.TransformToVisual(this).TransformBounds(new Rect(PontaDura.RenderSize));
+      return tmpPos;
     }
 
     private void thumbPernaDireita_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
