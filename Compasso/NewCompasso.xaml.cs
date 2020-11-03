@@ -20,6 +20,11 @@ namespace Compasso
   /// </summary>
   public partial class NewCompasso : UserControl
   {
+
+    TransformGroup transfromGroup = new TransformGroup();
+    TranslateTransform translateTransform = new TranslateTransform();
+    RotateTransform rotateTransform = new RotateTransform();
+
     public NewCompasso()
     {
       InitializeComponent();
@@ -28,6 +33,9 @@ namespace Compasso
       PernaDireita.RenderTransformOrigin = new Point(0, 0);
       PernaEsquerda.RenderTransform = new RotateTransform();
       PernaEsquerda.RenderTransformOrigin = new Point(1, 0);
+      transfromGroup.Children.Add(translateTransform);
+      transfromGroup.Children.Add(rotateTransform);
+      this.RenderTransform = transfromGroup;
     }
 
     private void NewCompasso_Loaded(object sender, RoutedEventArgs e)
@@ -63,18 +71,18 @@ namespace Compasso
 
     public void UpdateLinhaRaio()
     {
-      Rect PosicaoDura = PontaDura.TransformToAncestor(this).TransformBounds(new Rect(PontaDura.RenderSize));
+      Rect PosDura = PontaDura.TransformToAncestor(this).TransformBounds(new Rect(PontaDura.RenderSize));
       Rect PosicaoPencil = PontaPencil.TransformToAncestor(this).TransformBounds(new Rect(PontaPencil.RenderSize));
-      LinhaRaio.X1 = PosicaoDura.X;
-      LinhaRaio.Y1 = PosicaoDura.Y;
+      LinhaRaio.X1 = PosDura.X;
+      LinhaRaio.Y1 = PosDura.Y;
       LinhaRaio.X2 = PosicaoPencil.X;
       LinhaRaio.Y2 = PosicaoPencil.Y;
 
       double TamanhoLinha = (LinhaRaio.X2 - LinhaRaio.X1) * 2;
       Circunferencia.Width = Circunferencia.Height = TamanhoLinha;
-      Circunferencia.SetValue(Canvas.LeftProperty, (PosicaoDura.X - Circunferencia.Width / 2));
-      Circunferencia.SetValue(Canvas.TopProperty, (PosicaoDura.Y - Circunferencia.Width / 2));
-
+      Circunferencia.SetValue(Canvas.LeftProperty, (PosDura.X - Circunferencia.Width / 2));
+      Circunferencia.SetValue(Canvas.TopProperty, (PosDura.Y - Circunferencia.Width / 2));
+      UpdateTxtDura();
     }
 
     public void AdicionarPontoMarcacao()
@@ -84,8 +92,19 @@ namespace Compasso
       tmpNewPonto.SetValue(InkCanvas.LeftProperty, tmpPos.X);
       tmpNewPonto.SetValue(InkCanvas.TopProperty, tmpPos.Y);
       tmpNewPonto.SetValue(Panel.ZIndexProperty, 2000);
-      tmpNewPonto.medidas.Text = $"{tmpPos.X},{tmpPos.Y}";
+      tmpNewPonto.medidas.Text = $"{Math.Round(tmpPos.X)},{Math.Round(tmpPos.Y)}";
       pai.ic.Children.Add(tmpNewPonto);
+    }
+
+    public void AdicionarPontoMarcacao(Point p)
+    {
+      PontoRotacao tmpNewPonto = new PontoRotacao();
+      tmpNewPonto.SetValue(InkCanvas.LeftProperty, p.X);
+      tmpNewPonto.SetValue(InkCanvas.TopProperty, p.Y);
+      tmpNewPonto.SetValue(Panel.ZIndexProperty, 2000);
+      tmpNewPonto.medidas.Text = $"{Math.Round(p.X)},{Math.Round(p.Y)}";
+      pai.ic.Children.Add(tmpNewPonto);
+      Console.WriteLine(tmpNewPonto.medidas.Text);
     }
 
     public Rect PosicaoDura()
@@ -100,9 +119,62 @@ namespace Compasso
       //Console.WriteLine(pontoInicial);
     }
 
-    private void GripPernaDireita_MouseDown(object sender, MouseButtonEventArgs e)
+    private void thumbMove_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
     {
+      translateTransform.X += e.HorizontalChange;
+      translateTransform.Y += e.VerticalChange;
+      this.RenderTransform = transfromGroup;
+      UpdateTxtDura();
+    }
 
+    Point center;
+    double lastAngle;
+
+    RotateTransform rotation;
+
+    const int HANDLEMARGIN = 10;
+
+    double TotalAngle, graus;
+    private void thumbRotate_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+    {
+      InvalidateArrange();
+      Rect PosDura = PosicaoDura();
+      Point p = Mouse.GetPosition(pai);
+      Rect tmpPosAtual = PosicaoCompasso;
+      //AdicionarPontoMarcacao(p);
+
+      double centerX = PosDura.X + tmpPosAtual.X;
+      double centerY = PosDura.Y + tmpPosAtual.Y;
+      //AdicionarPontoMarcacao(new Point(centerX, centerY));
+
+      double rad = Math.Atan2(p.Y - centerY, p.X - centerX);
+      int degrees = (int)(rad * 180 / Math.PI);
+      graus = degrees;
+      rotation = new RotateTransform(degrees, centerX - tmpPosAtual.X, centerY - tmpPosAtual.Y);
+      RenderTransform = rotation;
+      txtRender.Text = "" + degrees;
+      Console.WriteLine($"Angulo={degrees} X={centerX} Y={centerY}");
+    }
+
+    private void thumbRotate_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+    {
+      TotalAngle += graus;
+    }
+
+    public void UpdateTxtDura()
+    {
+      Rect Pos = PosicaoDura();
+      txtPontaDura.Text = $"X={Math.Round(Pos.X)} Y={Math.Round(Pos.Y)}";
+    }
+
+    Rect PosicaoCompasso;
+    private void thumbRotate_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+    {
+      //center = new Point(strokeBounds.X + strokeBounds.Width / 2,strokeBounds.Y + strokeBounds.Height / 2);
+      Rect PosDura = PosicaoDura();
+      PosicaoCompasso = this.TransformToVisual(pai).TransformBounds(new Rect(this.RenderSize));
+      center = new Point(PosDura.X, PosDura.Y);
+      //AdicionarPontoMarcacao(center);
     }
   }
 }

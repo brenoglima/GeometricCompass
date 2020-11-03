@@ -6,9 +6,7 @@
              xmlns:local="clr-namespace:Compasso"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="300">
-    <Canvas x:Name="CanvasMain">
-
-        <Rectangle Width="1" Panel.ZIndex="999" Fill="White" Canvas.Top="200" Canvas.Left="200" Height="1" Name="PontoCentral" />
+    <Canvas x:Name="CanvasMain" Width="300" Height="350">
         <Ellipse Name="Circunferencia" Stroke="#33000000" StrokeDashArray="2,2,2,2" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeThickness="3" />
         <Canvas x:Name="PernaEsquerda" Width="90" Height="200" Canvas.Left="57.806" Canvas.Top="100">
             <Path Fill="Black" Stretch="Uniform" Width="100" Canvas.Left="-30" Canvas.Top="130">
@@ -17,6 +15,7 @@
                 </Path.Data>
             </Path>
             <Rectangle Width="1" Fill="Transparent" Canvas.Top="245" Canvas.Left="4" Height="1" Name="PontaDura" />
+            <TextBlock Height="20" Canvas.Top="245" Canvas.Left="4" Name="txtPontaDura">?</TextBlock>
             <Path Fill="#FF0090FF" Stretch="Fill" Width="90" Height="200">
                 <Path.Data>
                     <PathGeometry Figures="m 427.09961,137.80078 -44,320.29883 L 407,416.5 460,169 Z"/>
@@ -90,7 +89,42 @@
             <Rectangle Fill="#002D4F" Margin="-40,0,0,0" Width="5" Height="40" VerticalAlignment="Top" />
             <Ellipse Fill="#0090FF" Margin="25,78,25,25" Width="40" VerticalAlignment="Center" Height="40">
             </Ellipse>
-            <TextBlock Margin="25,75,25,25" FontSize="14" Foreground="#00213A" VerticalAlignment="Center" TextAlignment="Center" Name="txtAngulo">123</TextBlock>
+            <TextBlock Margin="25,75,25,25" FontSize="14" Foreground="#00213A" VerticalAlignment="Center" TextAlignment="Center" Name="txtAngulo"></TextBlock>
+            <Thumb x:Name="thumbRotate" DragStarted="thumbRotate_DragStarted" DragDelta="thumbRotate_DragDelta" DragCompleted="thumbRotate_DragCompleted">
+                <Thumb.Style>
+                    <Style TargetType="{x:Type Thumb}" BasedOn="{x:Null}">
+                        <Style.Setters>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Grid>
+                                            <Rectangle Fill="Transparent" Height="55" VerticalAlignment="Top" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style.Setters>
+                    </Style>
+                </Thumb.Style>
+            </Thumb>
+            <Thumb x:Name="thumbMove" DragDelta="thumbMove_DragDelta">
+                <Thumb.Style>
+                    <Style TargetType="{x:Type Thumb}" BasedOn="{x:Null}">
+                        <Style.Setters>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Grid>
+                                            <Rectangle Fill="Transparent" Height="90" VerticalAlignment="Bottom" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style.Setters>
+                    </Style>
+                </Thumb.Style>
+            </Thumb>
         </Grid>
+        <TextBlock Margin="0" FontSize="14" Foreground="#000" VerticalAlignment="Bottom" TextAlignment="Center" Name="txtRender">Angulo</TextBlock>
     </Canvas>
 </UserControl>

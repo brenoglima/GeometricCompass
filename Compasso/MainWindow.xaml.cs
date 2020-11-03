@@ -104,28 +104,10 @@ namespace Compasso
     RotateTransform rt = new RotateTransform();
     private void Button_Click(object sender, RoutedEventArgs e)
     {
-      /*
-      //Matrix m = new Matrix();
-      Matrix m = ((MatrixTransform)CompassoNovo.RenderTransform).Matrix;
-      var x = new Vector(1, 0);
-      Vector rotated = Vector.Multiply(x, m);
-      double angleBetween = Vector.AngleBetween(x, rotated);
-
-      angulo += 15;
-      InicialPos = CompassoNovo.PosicaoDura();
-
-      m.Rotate(-angleBetween);
-      m.Rotate(angulo);
-      Console.WriteLine($"Posicao DuraX={InicialPos.X}  DuraY={InicialPos.Y}");
-      MatrixTransform mt = new MatrixTransform(m);
-      CompassoNovo.RenderTransform = mt;
-      */
-
       Rect PosDura = CompassoNovo.PosicaoDura();
       rt.CenterX = PosDura.X;
       rt.CenterY = PosDura.Y;
       rt.Angle += 15;
-
     }
 
     private void Window_MouseMove(object sender, MouseEventArgs e)
