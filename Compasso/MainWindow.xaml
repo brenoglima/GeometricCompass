@@ -8,8 +8,9 @@
         Title="MainWindow" KeyDown="Window_KeyDown" MouseMove="Window_MouseMove" Height="680.613" WindowState="Maximized" Width="1137.734">
     <Grid x:Name="grdMain">
         <InkCanvas x:Name="ic" />
-        <local:NewCompasso Background="Transparent" x:Name="CompassoNovo" Width="300" Height="350">
-        </local:NewCompasso>
+        <Canvas Background="LimeGreen">
+            <local:NewCompasso Canvas.Left="300" Canvas.Top="200" Background="Transparent" x:Name="CompassoNovo" Width="300" Height="350" />
+        </Canvas>
         <Button Width="100" Height="50" VerticalAlignment="Top" Content="Girar" Click="Button_Click" />
         <TextBlock x:Name="txtPos" Width="500" VerticalAlignment="Top" HorizontalAlignment="Right">X:? Y:?</TextBlock>
     </Grid>

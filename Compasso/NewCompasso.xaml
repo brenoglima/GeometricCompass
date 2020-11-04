@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Compasso"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="300">
-    <Canvas x:Name="CanvasMain" Width="300" Height="350">
+    <Canvas x:Name="CanvasMain" Width="300" Background="#4CCCCCCC" Height="350">
         <Ellipse Name="Circunferencia" Stroke="#33000000" StrokeDashArray="2,2,2,2" StrokeDashCap="Round" StrokeEndLineCap="Round" StrokeThickness="3" />
         <Canvas x:Name="PernaEsquerda" Width="90" Height="200" Canvas.Left="57.806" Canvas.Top="100">
             <Path Fill="Black" Stretch="Uniform" Width="100" Canvas.Left="-30" Canvas.Top="130">

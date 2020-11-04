@@ -115,7 +115,7 @@ namespace Compasso
 
     private void thumbPernaDireita_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
     {
-      pontoInicial = new Point(Mouse.GetPosition((Grid)Parent).X, Mouse.GetPosition((Grid)Parent).Y);
+      pontoInicial = new Point(Mouse.GetPosition((UIElement)Parent).X, Mouse.GetPosition((UIElement)Parent).Y);
       //Console.WriteLine(pontoInicial);
     }
 
